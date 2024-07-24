@@ -1,7 +1,5 @@
 package com.handsonhip.model;
 
-import java.util.Date;
-
 public class User {
     //User attributes
     private long id;
@@ -12,15 +10,13 @@ public class User {
     private String city;
     private String email;
     private String password;
-    private Date createdAt;
-    private Date updatedAt;
 
     //Constructors
     public User(){
 
     }
 
-    public User(Long id, String firstName, String lastName, String address, String country, String city, String email, String password, Date createdAt, Date updatedAt){
+    public User(Long id, String firstName, String lastName, String address, String country, String city, String email, String password){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,8 +25,6 @@ public class User {
         this.city = city;
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters and Setters
@@ -97,21 +91,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
 }
