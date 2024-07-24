@@ -1,8 +1,15 @@
 package com.handsonhip.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
     //User attributes
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
+
     private String firstName;
     private String lastName;
     private String address;
@@ -11,11 +18,12 @@ public class User {
     private String email;
     private String password;
 
-    //Constructors
+    //No-arg constructor
     public User(){
 
     }
 
+    //All-args constructor
     public User(Long id, String firstName, String lastName, String address, String country, String city, String email, String password){
         this.id = id;
         this.firstName = firstName;

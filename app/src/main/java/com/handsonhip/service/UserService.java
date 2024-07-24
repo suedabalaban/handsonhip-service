@@ -1,38 +1,56 @@
 package com.handsonhip.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.handsonhip.model.User;
-import java.util.Map;
-import java.util.HashMap;
+import com.handsonhip.model.Session;
+import com.handsonhip.repository.UserRepository;
+import com.handsonhip.repository.SessionRepository;
 
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UserService {
-    //A simple in-memory user data structure
-    private final Map<String, User> users = new HashMap<>();
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SessionRepository sessionRepository;
 
     //User registration process
     public boolean register(User user){
-        if(users.containsKey(user.getEmail())){
+        if(userRepository.findByEmail(user.getEmail()) != null){
             return false; //User already exists
         }
         user.setPassword(hashPassword(user.getPassword()));
-        users.put(user.getEmail(), user);
+        userRepository.save(user);
         return true;
     }
 
     //User login process
-    public boolean login(String email, String password){
-        User user = users.get(email);
-        if(user != null){
-            return verifyPassword(password, user.getPassword());
+    public String login(String email, String password){
+        User user = userRepository.findByEmail(email);
+        if(user != null && verifyPassword(password, user.getPassword())){
+            String sessionId = UUID.randomUUID().toString();
+            Session session = new Session(user, sessionId, LocalDateTime.now());
+            sessionRepository.save(session);
+            return sessionId;
         }
-        return false; //User not found
+        return null; //User not found or invalid password
     }
 
     //User logout process
-    //TO DO
+    public void logout(String sessionId){
+       sessionRepository.deleteBySessionId(sessionId);
+    }
+
+    //Check whether user is logged in or not
+    public boolean isUserLoggedIn(String sessionId) {
+        return sessionRepository.findBySessionId(sessionId) != null;
+    }
 
     //A simple method to hash the password securely
     public String hashPassword(String password){

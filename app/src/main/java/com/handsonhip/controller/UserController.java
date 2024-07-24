@@ -8,31 +8,42 @@ import com.handsonhip.model.User;
 import com.handsonhip.service.UserService;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        boolean success = userService.register(user);
-        if(success){
-            return ResponseEntity.ok("User registered successfully.");
-        }else{
-            return ResponseEntity.badRequest().body("User already exists.");
+        if (userService.register(user)) {
+            return ResponseEntity.ok("User registered successfully");
+        } else {
+            return ResponseEntity.status(400).body("User already exists");
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-        boolean success = userService.login(email, password);
-        if(success){
-            return ResponseEntity.ok("Login successful.");
+        String sessionId = userService.login(email, password);
+        if(sessionId != null){
+            return ResponseEntity.ok("sessionId");
         }else{
-            return ResponseEntity.badRequest().body("Invalid email or password.");
+            return ResponseEntity.status(400).body("Invalid email or password");
         }
     }
     
-    //TO DO LOGOUT
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestParam String sessionId) {
+        userService.logout(sessionId);
+        return ResponseEntity.ok("Logout successful.");
+    }
     
+    @GetMapping("/status")
+    public ResponseEntity<String> status(@RequestParam String email){
+        if(userService.isUserLoggedIn(email)){
+            return ResponseEntity.ok("User is logged in.");
+        }else{
+            return ResponseEntity.ok("User is logged out.");
+        }
+    }
 }
