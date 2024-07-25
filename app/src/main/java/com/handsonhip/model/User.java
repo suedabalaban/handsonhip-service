@@ -7,15 +7,29 @@ import jakarta.persistence.*;
 public class User {
     //User attributes
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userID")
+    private Long userID;
 
+    @Column(name = "firstname", nullable = false)
     private String firstName;
+
+    @Column(name = "lastname", nullable = false)
     private String lastName;
+
+    @Column(name = "address", nullable = false)
     private String address;
+
+    @Column(name = "country", nullable = false)
     private String country;
+
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
     //No-arg constructor
@@ -24,8 +38,7 @@ public class User {
     }
 
     //All-args constructor
-    public User(Long id, String firstName, String lastName, String address, String country, String city, String email, String password){
-        this.id = id;
+    public User(String firstName, String lastName, String address, String country, String city, String email, String password){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -37,11 +50,11 @@ public class User {
 
     // Getters and Setters
     public Long getId() {
-        return id;
+        return userID;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.userID = id;
     }
 
     public String getFirstName() {
