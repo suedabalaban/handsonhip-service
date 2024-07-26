@@ -8,7 +8,7 @@ import com.handsonhip.model.User;
 import com.handsonhip.service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
