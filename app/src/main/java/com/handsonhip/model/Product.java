@@ -3,7 +3,7 @@ package com.handsonhip.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 public class Product {
     //Product attributes
     @Id
