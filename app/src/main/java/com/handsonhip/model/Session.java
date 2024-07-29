@@ -12,7 +12,7 @@ public class Session {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "memberID", nullable = false)
     private User user;
 
     @Column(nullable = false)
