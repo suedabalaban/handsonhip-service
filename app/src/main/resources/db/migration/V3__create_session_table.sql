@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS session (
     id SERIAL PRIMARY KEY,
-    userID INTEGER NOT NULL,
+    memberID INTEGER NOT NULL,
     sessionId VARCHAR(255) NOT NULL,
     loginTime TIMESTAMP NOT NULL,
-    CONSTRAINT fk_user FOREIGN KEY(userID) REFERENCES user(userID)
+    CONSTRAINT fk_member FOREIGN KEY(memberID) REFERENCES member(memberID)
 );

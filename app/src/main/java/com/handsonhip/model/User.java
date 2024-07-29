@@ -3,7 +3,7 @@ package com.handsonhip.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 public class User {
     //User attributes
     @Id
