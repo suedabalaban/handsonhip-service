@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS marketing (
     title VARCHAR(255),
     description TEXT,
     platforms VARCHAR(255),
-    suggestedPrice NUMERIC(10, 2),
+    suggested_Price FLOAT, -- Changed to FLOAT for consistency
     CONSTRAINT fk_product FOREIGN KEY(productID) REFERENCES product(productID)
 );
