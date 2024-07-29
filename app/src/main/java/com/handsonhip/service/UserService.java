@@ -8,8 +8,6 @@ import com.handsonhip.model.Session;
 import com.handsonhip.repository.UserRepository;
 import com.handsonhip.repository.SessionRepository;
 
-
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -22,7 +20,7 @@ public class UserService {
 
     //User registration process
     public boolean register(User user){
-        if(userRepository.findByEmail(user.getEmail()) != null){
+        if (userRepository.findByEmail(user.getEmail()) != null){
             return false; //User already exists
         }
         user.setPassword(hashPassword(user.getPassword()));
@@ -35,7 +33,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         if(user != null && verifyPassword(password, user.getPassword())){
             String sessionId = UUID.randomUUID().toString();
-            Session session = new Session(user, sessionId, LocalDateTime.now());
+            Session session = new Session(user, sessionId);
             sessionRepository.save(session);
             return sessionId;
         }
@@ -44,11 +42,11 @@ public class UserService {
 
     //User logout process
     public void logout(String sessionId){
-       sessionRepository.deleteBySessionId(sessionId);
+        sessionRepository.deleteBySessionId(sessionId);
     }
 
     //Check whether user is logged in or not
-    public boolean isUserLoggedIn(String sessionId) {
+    public boolean isUserLoggedIn(String sessionId){
         return sessionRepository.findBySessionId(sessionId) != null;
     }
 

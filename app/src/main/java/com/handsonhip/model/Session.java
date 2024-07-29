@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "session")
 public class Session {
-
+    //Table attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userID", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -24,10 +25,16 @@ public class Session {
     public Session() {}
 
     //All-args constructor
-    public Session(User user, String sessionId, LocalDateTime loginTime) {
+    public Session(User user, String sessionId) {
         this.user = user;
         this.sessionId = sessionId;
-        this.loginTime = loginTime;
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        if (this.loginTime == null) {
+            this.loginTime = LocalDateTime.now();
+        }
     }
 
     //Getters and Setters
