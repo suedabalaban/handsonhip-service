@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS user (
     userID SERIAL PRIMARY KEY,
-    firstName VARCHAR(20) NOT NULL,
-    lastName VARCHAR(20) NOT NULL,
-    address VARCHAR(100) NOT NULL,
-    country VARCHAR(20) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-    email VARCHAR(30) NOT NULL UNIQUE,
-    password VARCHAR(20) NOT NULL
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
