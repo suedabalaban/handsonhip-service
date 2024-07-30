@@ -3,13 +3,13 @@ package com.handsonhip.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 public class User {
     //User attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID")
-    private Long userID;
+    @Column(name = "memberID")
+    private Long memberID;
 
     @Column(name = "firstname", nullable = false)
     private String firstName;
@@ -50,11 +50,11 @@ public class User {
 
     // Getters and Setters
     public Long getId() {
-        return userID;
+        return memberID;
     }
 
     public void setId(Long id) {
-        this.userID = id;
+        this.memberID = id;
     }
 
     public String getFirstName() {
