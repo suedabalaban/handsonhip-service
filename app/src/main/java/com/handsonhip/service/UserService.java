@@ -8,7 +8,6 @@ import com.handsonhip.model.Session;
 import com.handsonhip.repository.UserRepository;
 import com.handsonhip.repository.SessionRepository;
 
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -32,22 +31,23 @@ public class UserService {
     public String login(String email, String password){
         User user = userRepository.findByEmail(email);
         if(user != null && verifyPassword(password, user.getPassword())){
-            String sessionId = UUID.randomUUID().toString();
-            Session session = new Session(user, sessionId);
+            // Create a new session without session_id
+            Session session = new Session(user);
             sessionRepository.save(session);
-            return sessionId;
+            // Return the session ID
+            return session.getId().toString();
         }
-        return null; //User not found or invalid password
+        return null; // User not found or invalid password
     }
 
     //User logout process
-    public void logout(String sessionId){
-        sessionRepository.deleteBySessionId(sessionId);
+    public void logout(Long sessionId){
+        sessionRepository.deleteById(sessionId);
     }
 
     //Check whether user is logged in or not
-    public boolean isUserLoggedIn(String sessionId){
-        return sessionRepository.findBySessionId(sessionId) != null;
+    public boolean isUserLoggedIn(Long sessionId){
+        return sessionRepository.findById(sessionId).isPresent();
     }
 
     //A simple method to hash the password securely

@@ -15,19 +15,15 @@ public class Session {
     @JoinColumn(name = "memberID", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private String sessionId;
-
-    @Column(nullable = false)
+    @Column(name = "logintime", nullable = false)
     private LocalDateTime loginTime;
 
     //No-arg constructor
     public Session() {}
 
     //All-args constructor
-    public Session(User user, String sessionId) {
+    public Session(User user) {
         this.user = user;
-        this.sessionId = sessionId;
     }
 
     @PrePersist
@@ -52,14 +48,6 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 
     public LocalDateTime getLoginTime() {

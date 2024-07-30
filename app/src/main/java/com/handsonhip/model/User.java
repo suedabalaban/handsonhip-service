@@ -9,7 +9,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "memberID")
-    private Long memberID;
+    private Long id;
 
     @Column(name = "firstname", nullable = false)
     private String firstName;
@@ -50,11 +50,11 @@ public class User {
 
     // Getters and Setters
     public Long getId() {
-        return memberID;
+        return id;
     }
 
     public void setId(Long id) {
-        this.memberID = id;
+        this.id = id;
     }
 
     public String getFirstName() {
