@@ -8,7 +8,7 @@ import com.handsonhip.model.User;
 import com.handsonhip.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/member")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,27 +23,60 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-        String sessionId = userService.login(email, password);
-        if(sessionId != null){
-            return ResponseEntity.ok("sessionId");
-        }else{
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        String sessionId = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+        if (sessionId != null) {
+            return ResponseEntity.ok(sessionId);
+        } else {
             return ResponseEntity.status(400).body("Invalid email or password");
         }
     }
-    
+
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestParam String sessionId) {
-        userService.logout(sessionId);
+    public ResponseEntity<String> logout(@RequestBody SessionRequest sessionRequest) {
+        userService.logout(sessionRequest.getSessionId());
         return ResponseEntity.ok("Logout successful.");
     }
-    
-    @GetMapping("/status")
-    public ResponseEntity<String> status(@RequestParam String email){
-        if(userService.isUserLoggedIn(email)){
+
+    @PostMapping("/status")
+    public ResponseEntity<String> status(@RequestBody SessionRequest sessionRequest) {
+        if (userService.isUserLoggedIn(sessionRequest.getSessionId())) {
             return ResponseEntity.ok("User is logged in.");
-        }else{
+        } else {
             return ResponseEntity.ok("User is logged out.");
+        }
+    }
+    // Inner class to handle login request
+    public static class LoginRequest {
+        private String email;
+        private String password;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+    // Inner class to handle session requests
+    public static class SessionRequest {
+        private Long sessionId;
+
+        public Long getSessionId() {
+            return sessionId;
+        }
+
+        public void setSessionId(Long sessionId) {
+            this.sessionId = sessionId;
         }
     }
 }
