@@ -10,7 +10,7 @@ import com.handsonhip.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
