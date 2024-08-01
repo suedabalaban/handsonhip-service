@@ -30,7 +30,7 @@ CREATE TABLE public.marketing (
     title character varying(255),
     description text,
     platforms character varying(255),
-    suggestedprice numeric(10,2)
+    suggested_price double precision
 );
 
 
@@ -107,7 +107,7 @@ CREATE TABLE public.product (
     productname character varying(255) NOT NULL,
     description text NOT NULL,
     price double precision NOT NULL,
-    imageurl character varying(255)
+    image_url character varying(255)
 );
 
 
