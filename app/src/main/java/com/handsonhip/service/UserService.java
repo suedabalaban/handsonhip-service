@@ -9,8 +9,6 @@ import com.handsonhip.model.Session;
 import com.handsonhip.repository.UserRepository;
 import com.handsonhip.repository.SessionRepository;
 
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @Service
 public class UserService {
@@ -20,46 +18,34 @@ public class UserService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    //Define non-mutable salt length  
-    private static final int SALT_LENGTH = 16;
 
-    // Method to generate a random salt
-    private String generateSalt() {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[SALT_LENGTH];
-        random.nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt);
-    }
-
-    // Method to hash the password with the salt
-    private String hashPassword(String password, String salt) {
-        return BCrypt.hashpw(password + salt, BCrypt.gensalt());
+       // Method to hash the password with BCrypt
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
     
-    // User registration process
+    // Registration process
     public boolean register(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            return false; // User already exists
-        }
-        String salt = generateSalt();
-        String hashedPassword = hashPassword(user.getPassword(), salt);
-        user.setPassword(hashedPassword);
-        user.setSalt(salt);
-        userRepository.save(user);
-        return true;
+    if (userRepository.findByEmail(user.getEmail()) != null) {
+        return false; // User already exists
+    }
+    String hashedPassword = hashPassword(user.getPassword());
+    user.setPassword(hashedPassword);
+    userRepository.save(user);
+    return true;
     }
 
-    //User login process
+    // Login process
     public String login(String email, String password){
-        User user = userRepository.findByEmail(email);
-        if(user != null && verifyPassword(password, user.getPassword(), user.getSalt())){
-            // Create a new session without session_id
-            Session session = new Session(user);
-            sessionRepository.save(session);
-            // Return the session ID
-            return session.getId().toString();
-        }
-        return null; // User not found or invalid password
+    User user = userRepository.findByEmail(email);
+    if(user != null && verifyPassword(password, user.getPassword())){
+        // Create a new session without session_id
+        Session session = new Session(user);
+        sessionRepository.save(session);
+        // Return the session ID
+        return session.getId().toString();
+    }
+    return null; // User not found or invalid password
     }
 
     //User logout process
@@ -72,8 +58,8 @@ public class UserService {
         return sessionRepository.findById(sessionId).isPresent();
     }
 
-    // Method to verify password
-    private boolean verifyPassword(String rawPassword, String hashedPassword, String salt) {
-        return BCrypt.checkpw(rawPassword + salt, hashedPassword);
-    }
+    // Password verification
+    private boolean verifyPassword(String rawPassword, String hashedPassword) {
+    return BCrypt.checkpw(rawPassword, hashedPassword);
+}
 }

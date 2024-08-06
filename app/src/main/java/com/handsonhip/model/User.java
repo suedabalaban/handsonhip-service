@@ -32,9 +32,6 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "salt", nullable = false)
-    private String salt;
-
     //No-arg constructor
     public User(){
     }
@@ -48,7 +45,6 @@ public class User {
         this.city = city;
         this.email = email;
         this.password = password;
-        this.salt = salt;
     }
 
     // Getters and Setters
@@ -116,11 +112,4 @@ public class User {
         this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 }
