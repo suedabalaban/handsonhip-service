@@ -1,6 +1,7 @@
 package com.handsonhip.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.handsonhip.model.User;
@@ -17,27 +18,34 @@ public class UserService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    //User registration process
-    public boolean register(User user){
-        if (userRepository.findByEmail(user.getEmail()) != null){
-            return false; //User already exists
-        }
-        user.setPassword(hashPassword(user.getPassword()));
-        userRepository.save(user);
-        return true;
+
+       // Method to hash the password with BCrypt
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+    
+    // Registration process
+    public boolean register(User user) {
+    if (userRepository.findByEmail(user.getEmail()) != null) {
+        return false; // User already exists
+    }
+    String hashedPassword = hashPassword(user.getPassword());
+    user.setPassword(hashedPassword);
+    userRepository.save(user);
+    return true;
     }
 
-    //User login process
+    // Login process
     public String login(String email, String password){
-        User user = userRepository.findByEmail(email);
-        if(user != null && verifyPassword(password, user.getPassword())){
-            // Create a new session without session_id
-            Session session = new Session(user);
-            sessionRepository.save(session);
-            // Return the session ID
-            return session.getId().toString();
-        }
-        return null; // User not found or invalid password
+    User user = userRepository.findByEmail(email);
+    if(user != null && verifyPassword(password, user.getPassword())){
+        // Create a new session without session_id
+        Session session = new Session(user);
+        sessionRepository.save(session);
+        // Return the session ID
+        return session.getId().toString();
+    }
+    return null; // User not found or invalid password
     }
 
     //User logout process
@@ -50,13 +58,8 @@ public class UserService {
         return sessionRepository.findById(sessionId).isPresent();
     }
 
-    //A simple method to hash the password securely
-    public String hashPassword(String password){
-        return Integer.toHexString(password.hashCode());
-    }
-
-    //A simple method to verify password
-    public boolean verifyPassword(String rawPassword, String hashedPassword){
-        return hashPassword(rawPassword).equals(hashedPassword);
-    }
+    // Password verification
+    private boolean verifyPassword(String rawPassword, String hashedPassword) {
+    return BCrypt.checkpw(rawPassword, hashedPassword);
+}
 }

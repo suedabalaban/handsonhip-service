@@ -15,6 +15,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
+        // Delete the following line later
+        System.out.println("Received registration request: " + user);
         if (userService.register(user)) {
             return ResponseEntity.ok("User registered successfully");
         } else {

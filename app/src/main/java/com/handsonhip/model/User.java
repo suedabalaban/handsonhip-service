@@ -34,11 +34,10 @@ public class User {
 
     //No-arg constructor
     public User(){
-
     }
 
     //All-args constructor
-    public User(String firstName, String lastName, String address, String country, String city, String email, String password){
+    public User(String firstName, String lastName, String address, String country, String city, String email, String password, String salt){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -112,4 +111,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
