@@ -32,13 +32,15 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "salt", nullable = false)
+    private String salt;
+
     //No-arg constructor
     public User(){
-
     }
 
     //All-args constructor
-    public User(String firstName, String lastName, String address, String country, String city, String email, String password){
+    public User(String firstName, String lastName, String address, String country, String city, String email, String password, String salt){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -46,6 +48,7 @@ public class User {
         this.city = city;
         this.email = email;
         this.password = password;
+        this.salt = salt;
     }
 
     // Getters and Setters
@@ -111,5 +114,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
