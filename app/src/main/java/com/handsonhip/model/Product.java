@@ -28,8 +28,8 @@ public class Product {
     }
 
     // All-args constructor
-    public Product(String name, String description, Double price, String imageUrl) {
-        this.productName = name;
+    public Product(String productName, String description, Double price, String imageUrl) {
+        this.productName = productName;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -44,12 +44,12 @@ public class Product {
         this.productID = productID;
     }
 
-    public String getName() {
+    public String getProductName() {
         return productName;
     }
 
-    public void setName(String name) {
-        this.productName = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
