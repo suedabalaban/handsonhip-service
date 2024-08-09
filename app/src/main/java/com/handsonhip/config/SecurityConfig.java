@@ -20,9 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())  // Disabled for testing purposes
+            .csrf(csrf -> csrf.disable())  // Testing purposes only
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/member/register", "/api/member/login").permitAll()
+                .requestMatchers("/api/product/**").permitAll()  // Allow all requests to /api/product/** endpoints
                 .anyRequest().authenticated()
             );
         return http.build();
@@ -40,4 +41,3 @@ public class SecurityConfig {
         return source;
     }
 }
-
