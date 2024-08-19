@@ -1,7 +1,7 @@
 package com.handsonhip.config;
 
 import com.handsonhip.service.JwtService;
-import com.handsonhip.service.UserService;
+import com.handsonhip.service.MemberService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,11 +19,11 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserService userService;
+    private final MemberService memberService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserService userService) {
+    public JwtAuthenticationFilter(JwtService jwtService, MemberService userService) {
         this.jwtService = jwtService;
-        this.userService = userService;
+        this.memberService = userService;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = header.substring(7);
         }
 
-        if (token != null && jwtService.validateToken(token, userService.loadUserByUsername(jwtService.extractUsername(token)))) {
-            UserDetails userDetails = userService.loadUserByUsername(jwtService.extractUsername(token));
+        if (token != null && jwtService.validateToken(token, memberService.loadUserByUsername(jwtService.extractUsername(token)))) {
+            UserDetails userDetails = memberService.loadUserByUsername(jwtService.extractUsername(token));
             SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
             );
