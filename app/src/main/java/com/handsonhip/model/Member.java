@@ -1,10 +1,14 @@
 package com.handsonhip.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "member")
-public class User {
+public class Member implements UserDetails {
     //User attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +37,11 @@ public class User {
     private String password;
 
     //No-arg constructor
-    public User(){
+    public Member(){
     }
 
     //All-args constructor
-    public User(String firstName, String lastName, String address, String country, String city, String email, String password, String salt){
+    public Member(String firstName, String lastName, String address, String country, String city, String email, String password, String salt){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -110,6 +114,36 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }

@@ -13,7 +13,7 @@ public class Session {
 
     @ManyToOne
     @JoinColumn(name = "memberID", nullable = false)
-    private User user;
+    private Member user;
 
     @Column(name = "logintime", nullable = false)
     private LocalDateTime loginTime;
@@ -22,7 +22,7 @@ public class Session {
     public Session() {}
 
     //All-args constructor
-    public Session(User user) {
+    public Session(Member user) {
         this.user = user;
     }
 
@@ -42,11 +42,11 @@ public class Session {
         this.id = id;
     }
 
-    public User getUser() {
+    public Member getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Member user) {
         this.user = user;
     }
 
