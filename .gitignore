@@ -6,3 +6,6 @@ build
 
 # Ignore postgres password
 postgres_password.txt
+
+# API Key variable
+application-dev.properties
